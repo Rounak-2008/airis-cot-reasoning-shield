@@ -38,7 +38,13 @@ MAX_TPM = 40000
 WINDOW_SECONDS = 60.0
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-BBH_DIR = os.path.join(BASE_DIR, "BIG-Bench-Hard", "bbh")
+BBH_DIR = os.path.join(BASE_DIR, "datasets", "bbh", "bbh")
+if not os.path.exists(BBH_DIR):
+    BBH_DIR = os.path.join(BASE_DIR, "datasets", "bbh")
+if not os.path.exists(BBH_DIR):
+    BBH_DIR = os.path.join(BASE_DIR, "datasets", "BIG-Bench-Hard", "bbh")
+if not os.path.exists(BBH_DIR):
+    BBH_DIR = os.path.join(BASE_DIR, "BIG-Bench-Hard", "bbh")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 STEP1_LOG = os.path.join(LOG_DIR, "step1_paper2_bbh_test.jsonl")
 

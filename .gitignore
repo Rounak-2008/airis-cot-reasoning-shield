@@ -22,17 +22,19 @@ Thumbs.db
 
 # Upstream submodules / duplicate clone directories
 sycophancy-eval/
-BBQ/results/
-BBQ/supplemental/
-BBQ/analysis_scripts/
-BBQ/templates/
-BBQ/*.pdf
-BBQ/generate_from_template_*.py
-BBQ/.git/
-BIG-Bench-Hard/.git/
-BIG-Bench-Hard/code-davinci-002-outputs/
-BIG-Bench-Hard/cot-prompts/
-BIG-Bench-Hard/figures/
+BBQ/
+BIG-Bench-Hard/
+datasets/bbq/results/
+datasets/bbq/supplemental/
+datasets/bbq/analysis_scripts/
+datasets/bbq/templates/
+datasets/bbq/*.pdf
+datasets/bbq/generate_from_template_*.py
+datasets/bbq/.git/
+datasets/bbh/.git/
+datasets/bbh/code-davinci-002-outputs/
+datasets/bbh/cot-prompts/
+datasets/bbh/figures/
 
 # IDE files
 .vscode/

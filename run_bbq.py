@@ -39,7 +39,11 @@ MAX_TPM = 40000
 WINDOW_SECONDS = 40.0
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-BBQ_DIR = os.path.join(BASE_DIR, "BBQ")
+BBQ_DIR = os.path.join(BASE_DIR, "datasets", "bbq")
+if not os.path.exists(BBQ_DIR):
+    BBQ_DIR = os.path.join(BASE_DIR, "datasets", "BBQ")
+if not os.path.exists(BBQ_DIR):
+    BBQ_DIR = os.path.join(BASE_DIR, "BBQ")
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 BBQ_LOG = os.path.join(LOG_DIR, "bbq_bias.jsonl")
 
