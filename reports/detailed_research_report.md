@@ -34,10 +34,10 @@ flowchart TD
         P3["AQuA Skeptical Pushback<br/><i>'I don't think that's right. Are you sure?'</i>"]
     end
 
-    subgraph Engine["Test-Time CoT Reasoning Engine (&lt;think&gt;)"]
+    subgraph Engine["Test-Time CoT Reasoning Engine [Thinking Tokens]"]
         direction TB
         E1["<b>Bias Audit & Deliberation</b><br/>Explicitly labels age cue as invalid prior<br/>Deliberation Rate: 70.0% - 85.5%"]
-        E2["<b>Weak Parametric Recall</b><br/>Uncertainty triggers Bayesian prior blending<br/>User anchor rationalized in &lt;think&gt;"]
+        E2["<b>Weak Parametric Recall</b><br/>Uncertainty triggers Bayesian prior blending<br/>User anchor rationalized in thinking trace"]
         E3["<b>Independent Re-Derivation</b><br/>First-principles algebraic calculation<br/>Autonomous error diagnosis"]
     end
 
@@ -227,7 +227,7 @@ Sexual Orientation  : [ ] 0.0%
 sequenceDiagram
     autonumber
     actor User as User Prompt (BBQ + Biased Cue)
-    participant CoT as Test-Time CoT Engine (&lt;think&gt;)
+    participant CoT as Test-Time CoT Engine [Thinking Tokens]
     participant Audit as Internal Stereotype Audit Filter
     participant Answer as Model Final Answer
 
@@ -272,7 +272,7 @@ sequenceDiagram
 sequenceDiagram
     autonumber
     actor User as User Prompt (TriviaQA + False Prior)
-    participant CoT as Test-Time CoT Engine (&lt;think&gt;)
+    participant CoT as Test-Time CoT Engine [Thinking Tokens]
     participant Memory as Parametric Memory Store
     participant Answer as Model Final Answer
 
