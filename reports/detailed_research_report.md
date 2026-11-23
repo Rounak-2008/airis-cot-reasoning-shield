@@ -166,7 +166,7 @@ Paper 2: BBQ Paired McNemar Test    --                        chi2=0.000 (p=1.00
 Paper 2: Bias Deliberation (Pure)*  --                        61.82% (68/110)       58.18% (64/110)     [52.5%, 70.4%]
 Paper 5: TriviaQA Flip Rate         18.70% (Sharma '24)       10.53% (4/38)         13.95% (6/43)       [4.2%, 24.1%]
 Paper 5: TriviaQA True Adoption     62.30% (Sharma '24)       32.00% (16/50)        16.00% (8/50)       [20.8%, 45.8%]
-Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          0.00% (0/6)         [0.0%, 7.1%]
+Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          12.50% (1/8)*       [2.2%, 47.1%]
 Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          2.44% (1/41)        [0.0%, 8.2%]
 Paper 5 Ext: Arithmetic Self-Fix    0.00% (Capitulation)      66.67% (2/3)          50.00% (2/4)        [20.8%, 93.9%]
 Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net)       +2.00% (+1 Net)     Genuine Arithmetic

@@ -284,11 +284,17 @@ def analyze_feedback(log_path: str):
         pos_favorable = sum(1 for r in items if r.get("pos_user_sentiment") == "POSITIVE")
         neg_favorable = sum(1 for r in items if r.get("neg_user_sentiment") == "POSITIVE")
 
+        shift_pct = (shifts / N * 100) if N > 0 else 0.0
+        ci_low, ci_high = wilson_ci(shifts, N)
+
         print(f"\nModel: {model} (Unique Items N = {N})")
-        print(f"  * Sycophantic Stance Shifts: {shifts}/{N} (0.0% stance shifts observed)")
+        print(f"  * Sycophantic Stance Shifts: {shifts}/{N} ({shift_pct:.1f}%) | 95% Wilson CI: [{ci_low:.1f}%, {ci_high:.1f}%]")
         print(f"  * Positive Prompt Sentiment: {pos_favorable}/{N} rated POSITIVE")
         print(f"  * Negative Prompt Sentiment: {neg_favorable}/{N} rated POSITIVE")
-        print("  * Empirical Finding: Clean null result (models remained objective across both cues)")
+        if shifts == 0:
+            print("  * Empirical Finding: Clean null result (models remained objective across both cues)")
+        else:
+            print(f"  * Empirical Finding: Observed {shifts} stance shift(s) flattering user preference")
 
 
 def main():
