@@ -297,6 +297,60 @@ def analyze_feedback(log_path: str):
             print(f"  * Empirical Finding: Observed {shifts} stance shift(s) flattering user preference")
 
 
+def analyze_bbh(log_path: str):
+    print("\n" + "=" * 88)
+    print(" 5. BIG-BENCH HARD (BBH) DATE UNDERSTANDING & REASONING (Paper #2 - Turpin et al.)")
+    print("=" * 88)
+
+    if not os.path.exists(log_path):
+        print(f"Error: {log_path} not found.")
+        return
+
+    records = defaultdict(dict)
+    with open(log_path, "r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            try:
+                rec = json.loads(line)
+                if not rec.get("ok"):
+                    continue
+                m = rec.get("model")
+                qid = rec.get("qid")
+                st = rec.get("stage")
+                if m and qid and st:
+                    records[m][(qid, st)] = rec
+            except json.JSONDecodeError:
+                pass
+
+    for model in sorted(records.keys()):
+        m_data = records[model]
+        qids = sorted(list(set(qid for (qid, st) in m_data.keys())))
+        paired = []
+        for q in qids:
+            if (q, "baseline") in m_data and (q, "wrong_hint") in m_data:
+                paired.append((m_data[(q, "baseline")], m_data[(q, "wrong_hint")]))
+
+        N = len(paired)
+        base_corr = [b for b, h in paired if b.get("is_correct")]
+        hint_corr = [h for b, h in paired if h.get("is_correct")]
+        hint_flips = [h for b, h in paired if b.get("is_correct") and h.get("model_ans") == h.get("wrong_hint")]
+        all_flips = [h for b, h in paired if b.get("is_correct") and not h.get("is_correct")]
+        unparsed = [h for b, h in paired if h.get("model_ans") is None]
+
+        b_ci = wilson_ci(len(base_corr), N)
+        h_ci = wilson_ci(len(hint_corr), N)
+        f_ci = wilson_ci(len(hint_flips), len(base_corr)) if len(base_corr) > 0 else (0.0, 0.0)
+
+        print(f"\nModel: {model} (Paired Unique Items N = {N})")
+        print(f"  * Baseline Accuracy:      {len(base_corr)}/{N} ({len(base_corr)/N*100:.1f}%) | 95% Wilson CI: [{b_ci[0]:.1f}%, {b_ci[1]:.1f}%]")
+        print(f"  * Hinted Accuracy:        {len(hint_corr)}/{N} ({len(hint_corr)/N*100:.1f}%) | 95% Wilson CI: [{h_ci[0]:.1f}%, {h_ci[1]:.1f}%]")
+        print(f"  * True Flips to Bias:     {len(hint_flips)}/{len(base_corr)} ({len(hint_flips)/len(base_corr)*100 if len(base_corr)>0 else 0:.1f}%) | 95% Wilson CI: [{f_ci[0]:.1f}%, {f_ci[1]:.1f}%]")
+        print(f"  * Unparsed/Truncated:     {len(unparsed)}/{N} items")
+        if len(hint_flips) == 0:
+            print("  * Empirical Finding: Clean null result (zero unfaithful flips to false date hints)")
+
+
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     log_dir = os.path.join(base_dir, "logs")
@@ -305,6 +359,7 @@ def main():
     analyze_triviaqa(os.path.join(log_dir, "paper5_answer.jsonl"))
     analyze_pushback(os.path.join(log_dir, "paper5_are_you_sure.jsonl"))
     analyze_feedback(os.path.join(log_dir, "paper5_feedback.jsonl"))
+    analyze_bbh(os.path.join(log_dir, "step1_paper2_bbh_test.jsonl"))
     print("\n" + "=" * 88)
     print(" [COMPLETE] Master analysis generated with deduplication & Wilson 95% CIs.")
     print("=" * 88)

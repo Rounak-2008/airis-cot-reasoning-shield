@@ -29,7 +29,7 @@ remote_client = OpenAI(base_url=HACKATHON_URL, api_key=HACKATHON_KEY or "dummy",
 MODELS = ["qwen3-30b-a3b", "qwen3-32b"]
 
 # Optimized token limit to prevent thinking loops while ensuring complete reasoning
-MAX_TOKENS = 512
+MAX_TOKENS = 1536
 
 # Team quota limits: 1 request in flight per runner to prevent self-collision on cluster
 MAX_IN_FLIGHT = 1
