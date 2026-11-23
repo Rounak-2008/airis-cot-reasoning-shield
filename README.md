@@ -53,7 +53,7 @@ cd airis-reasoning-sycophancy
 pip install -r requirements.txt
 
 # Set your hackathon cluster API key (or default will be used)
-export HACKATHON_API_KEY="sk-GdmP1Tn2pKrRthww4xHOXg"
+export HACKATHON_API_KEY=""
 export HACKATHON_URL="http://10.7.25.115:30400/v1"
 ```
 
