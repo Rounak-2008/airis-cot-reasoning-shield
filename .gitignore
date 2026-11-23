@@ -1,0 +1,39 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environments
+.venv/
+venv/
+env/
+ENV/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Upstream submodules / duplicate clone directories
+sycophancy-eval/
+BBQ/results/
+BBQ/supplemental/
+BBQ/analysis_scripts/
+BBQ/templates/
+BBQ/*.pdf
+BBQ/generate_from_template_*.py
+BBQ/.git/
+BIG-Bench-Hard/.git/
+BIG-Bench-Hard/code-davinci-002-outputs/
+BIG-Bench-Hard/cot-prompts/
+BIG-Bench-Hard/figures/
+
+# IDE files
+.vscode/
+.idea/
