@@ -156,32 +156,25 @@ All empirical evaluations were executed on the dedicated AIRIS hackathon GPU clu
 ========================================================================================================================
                                      HEAD-TO-HEAD REPLICATION SCORECARD
 ========================================================================================================================
-Benchmark & Metric                  Literature Baseline       Qwen3-30B-A3B (MoE)   Qwen3-32B (Dense)   Observed Impact
+Benchmark & Metric                  Literature Baseline       Qwen3-30B-A3B (MoE)   Qwen3-32B (Dense)   95% Wilson CI (MoE)
 ------------------------------------------------------------------------------------------------------------------------
-Paper 2: BBQ Bias Flip Rate (↓)     39.50% (Turpin '23)              2.73% (3/110)       1.82% (2/110)  >93% Reduction
-Paper 2: BBQ Baseline Accuracy (↑)  61.20% (PaLM-62B)               89.09% (98/110)     91.82% (101/110)+30.6% Margin
-Paper 2: BBQ Hinted Accuracy (↑)    34.10% (PaLM-62B)               88.18% (97/110)     93.64% (103/110)+59.5% Margin
-Paper 2: BBQ CoT Deliberation (↑)    0.00% (Unfaithful)             85.45% (94/110)     70.00% (77/110) Active Bias Audit
-Paper 5: TriviaQA Flip Rate (↓)     18.70% (Sharma '24)              8.00% (4/50)       12.00% (6/50)   36-57% Reduction
-Paper 5: False Hint Adoption (↓)    62.30% (Sharma '24)             84.00% (42/50)      64.00% (32/50)  High Sycophancy
-Paper 5 Ext: Pushback Flips (↓)     24.00% (Sharma '24)              0.00% (0/43)       11.11% (1/9)    Robust Stability
-Paper 5 Ext: Pushback Net Δ (↑)     ≤ 0.00% (Standard LLM)          +8.00% (86%→94%)    -11.11% (Turn 2)MoE Advantage
-Paper 5 Ext: Error Self-Correct (↑)  0.00% (Capitulation)           57.14% (4/7)         0.00% (0/1)    Autonomous Fix
+Paper 2: BBQ Flip Rate (Base-Corr)  39.50% (Turpin '23)       3.06% (3/98)          1.98% (2/101)       [1.0%, 8.6%]
+Paper 2: BBQ Flip Rate (All Pairs)  39.50% (Turpin '23)       2.73% (3/110)         1.82% (2/110)       [0.9%, 7.7%]
+Paper 2: BBQ Baseline Accuracy      61.20% (PaLM-62B)         89.09% (98/110)       91.82% (101/110)    [81.9%, 93.6%]
+Paper 2: BBQ Hinted Accuracy        34.10% (PaLM-62B)         88.18% (97/110)       93.64% (103/110)    [80.8%, 93.0%]
+Paper 2: BBQ Paired McNemar Test    --                        chi2=0.000 (p=1.000)  chi2=0.167 (p=0.683)No Significant Shift
+Paper 5: TriviaQA Flip Rate         18.70% (Sharma '24)       10.53% (4/38)         13.95% (6/43)       [4.2%, 24.1%]
+Paper 5: TriviaQA True Adoption     62.30% (Sharma '24)       32.00% (16/50)        16.00% (8/50)       [20.8%, 45.8%]
+Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          0.00% (0/4)         [0.0%, 7.1%]
+Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          0.00% (0/18)        [0.0%, 8.2%]
+Paper 5 Ext: Arithmetic Self-Fix    0.00% (Capitulation)      66.67% (2/3)          0.00% (0/2)         [20.8%, 93.9%]
+Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net)       +0.00% (0 Net)      Genuine Arithmetic
 ========================================================================================================================
 ```
 
-```
-BBQ BIAS UNFAITHFUL FLIP RATE (Lower is Better)
-Turpin et al. 2023 : [████████████████████████████████████████] 39.50%
-Qwen3-30B-A3B (MoE): [███] 2.73%  (-93.1% relative reduction)
-Qwen3-32B (Dense)  : [██] 1.82%   (-95.4% relative reduction)
-```
-
-```
-MISTAKE SELF-CORRECTION EFFICIENCY UNDER PUSHBACK (Higher is Better)
-Sharma et al. 2024 : [ ] 0.00%  (Universal Capitulation)
-Qwen3-30B-A3B (MoE): [███████████████████████] 57.14% (Autonomous Error Fix)
-```
+> **Statistical Equivalence Note**: Overlapping 95% Wilson intervals (BBQ flips: MoE [0.9%, 7.7%] vs. Dense [0.5%, 6.4%]) show the two model sizes are statistically indistinguishable ($p = 0.68$, McNemar test).
+>
+> **Methodological Audit Note**: Initial evaluations using naive substring matching reported an apparent 84% adoption rate on TriviaQA. A detailed audit revealed that in 26 of 38 correct trials, the model cited the incorrect suggestion explicitly to refute it. When evaluating the actual committed answer, true sycophantic flips were limited to 10.5% (MoE) and 14.0% (Dense).
 
 ---
 
