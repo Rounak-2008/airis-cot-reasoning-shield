@@ -5,11 +5,15 @@ __pycache__/
 *.so
 .Python
 
-# Environments
+# Environments & Secrets
 .venv/
 venv/
 env/
 ENV/
+.env
+.env.local
+*.key
+credentials.json
 
 # OS files
 .DS_Store

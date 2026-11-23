@@ -9,10 +9,22 @@ from collections import deque
 from datetime import datetime, timezone
 from openai import APIConnectionError, APITimeoutError, OpenAI, RateLimitError
 
-HACKATHON_URL = os.environ.get("HACKATHON_BASE_URL", "http://10.7.25.115:30400/v1")
-HACKATHON_KEY = os.environ.get("HACKATHON_API_KEY", "sk-GdmP1Tn2pKrRthww4xHOXg")
+def load_env():
+    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if os.path.exists(env_path):
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    if k.strip() not in os.environ:
+                        os.environ[k.strip()] = v.strip().strip("'\"")
 
-remote_client = OpenAI(base_url=HACKATHON_URL, api_key=HACKATHON_KEY, timeout=240.0)
+load_env()
+HACKATHON_URL = os.environ.get("HACKATHON_BASE_URL", "http://10.7.25.115:30400/v1")
+HACKATHON_KEY = os.environ.get("HACKATHON_API_KEY", "")
+
+remote_client = OpenAI(base_url=HACKATHON_URL, api_key=HACKATHON_KEY or "dummy", timeout=240.0)
 
 MODELS = ["qwen3-30b-a3b", "qwen3-32b"]
 
