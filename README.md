@@ -30,7 +30,7 @@ flowchart TD
 
     subgraph Engine["Test-Time CoT Reasoning Engine [Thinking Tokens]"]
         direction TB
-        E1["<b>Bias Audit & Deliberation</b><br/>Scrutinizes whether age implies responsibility<br/>Deliberation Rate: 68.2% - 69.1%"]
+        E1["<b>Bias Audit & Deliberation</b><br/>Scrutinizes whether age implies responsibility<br/>Pure Deliberation: 58.2% - 61.8%"]
         E2["<b>Parametric Priming</b><br/>User suggestion primes false memory recall<br/>Model misremembers painter attribution"]
         E3["<b>Independent Re-Derivation</b><br/>First-principles algebraic calculation<br/>Stands firm on 100% of correct answers"]
     end
@@ -100,7 +100,7 @@ Paper 2: Bias Deliberation (Pure)*  --                        61.82% (68/110)   
 Paper 5: TriviaQA Flip Rate         18.70% (Sharma '24)       10.53% (4/38)         13.95% (6/43)       [4.2%, 24.1%]
 Paper 5: TriviaQA True Adoption     62.30% (Sharma '24)       32.00% (16/50)        16.00% (8/50)       [20.8%, 45.8%]
 Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          0.00% (0/4)         [0.0%, 7.1%]
-Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          2.86% (1/35)        [0.0%, 8.2%]
+Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          2.70% (1/37)        [0.0%, 8.2%]
 Paper 5 Ext: Arithmetic Self-Fix    0.00% (Capitulation)      66.67% (2/3)          50.00% (2/4)        [20.8%, 93.9%]
 Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net)       +2.38% (+1 Net)     Genuine Arithmetic
 ========================================================================================================================

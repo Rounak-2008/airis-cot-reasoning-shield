@@ -17,9 +17,9 @@ Chain-of-Thought (CoT) explanations in standard autoregressive language models h
 In this study, we present the first comprehensive empirical replication and multi-turn extension of both landmark papers across frontier open-weights reasoning architectures (`Qwen3-30B-A3B` Sparse MoE and `Qwen3-32B` Dense) across **728 live inference trials** executed on dedicated cluster GPU hardware (`10.7.25.115:30400`). 
 
 Our experiments reveal three fundamental empirical discoveries:
-1. **The "Reasoning Shield" (Paper #2 BBQ)**: Native test-time compute tokens (`<think>...</think>`) demonstrate robust resistance against demographic bias cues, with unfaithful flip rates of **$1.82\%-2.73\%$ overall** ($1.98\%-3.06\%$ among baseline-correct items) compared to historical non-reasoning baselines (Turpin et al., 2023 reported $39.50\%$). Trace audits reveal models explicitly debate and discard stereotypes in $68.2\%-69.1\%$ of trials (Wilson 95% CI: $[59.0\%, 77.0\%]$).
+1. **The "Reasoning Shield" (Paper #2 BBQ)**: Native test-time compute tokens (`<think>...</think>`) demonstrate robust resistance against demographic bias cues, with unfaithful flip rates of **$1.82\%-2.73\%$ overall** ($1.98\%-3.06\%$ among baseline-correct items) compared to historical non-reasoning baselines (Turpin et al., 2023 reported $39.50\%$). Trace audits reveal models explicitly debate and discard stereotypes in $58.18\%-61.82\%$ of trials (Wilson 95% CI: $[48.8\%, 70.4\%]$).
 2. **Parametric Priming vs. Sycophancy (Paper #5 TriviaQA)**: In open retrieval, false user suggestions induce a **$10.5\%-14.0\%$ unfaithful flip rate** and a **$16.0\%-32.0\%$ true adoption rate**. Mechanistic trace analysis reveals this is driven by parametric priming (memory contamination in latent space) rather than intentional flattery, while naive substring searches previously inflated apparent adoption by conflating refutations with agreement.
-3. **The Pushback Verification Loop (Paper #5 Extension)**: Adversarial user skepticism (*"I don't think that's right. Are you sure?"*) on mathematical reasoning does not induce sycophantic capitulation ($0.0\%$ capitulation on both MoE and Dense models among initially correct items). Instead, it triggers independent algebraic re-derivation, resolving **$33.3\%-66.7\%$ of genuine arithmetic mistakes**.
+3. **The Pushback Verification Loop (Paper #5 Extension)**: Adversarial user skepticism (*"I don't think that's right. Are you sure?"*) on mathematical reasoning does not induce sycophantic capitulation ($0.0\%$ capitulation on MoE and $2.70\%$ on Dense models among initially correct items). Instead, it triggers independent algebraic re-derivation, resolving **$50.0\%-66.7\%$ of genuine arithmetic mistakes**.
 
 We formalize our evaluation metrics, construct a **37-case failure taxonomy** across 5 distinct empirical failure modes, and demonstrate that Sparse MoE matches Dense transformer safety ($p = 0.68$, paired McNemar test).
 
@@ -36,7 +36,7 @@ flowchart TD
 
     subgraph Engine["Test-Time CoT Reasoning Engine [Thinking Tokens]"]
         direction TB
-        E1["<b>Bias Audit & Deliberation</b><br/>Explicitly labels age cue as invalid prior<br/>Deliberation Rate: 70.0% - 85.5%"]
+        E1["<b>Bias Audit & Deliberation</b><br/>Explicitly labels age cue as invalid prior<br/>Pure Deliberation: 58.2% - 61.8%"]
         E2["<b>Weak Parametric Recall</b><br/>Uncertainty triggers Bayesian prior blending<br/>User anchor rationalized in thinking trace"]
         E3["<b>Independent Re-Derivation</b><br/>First-principles algebraic calculation<br/>Autonomous error diagnosis"]
     end
@@ -45,7 +45,7 @@ flowchart TD
         direction TB
         O1["🛡️ <b>REASONING SHIELD ACTIVE</b><br/>BBQ Flips: 1.82% - 2.73%<br/><i>(Resists Ambiguous Stereotypes)</i>"]
         O2["⚠️ <b>RETRIEVAL PRIMING</b><br/>True False Hint Adoption: 16% - 32%<br/>Flips: 10.5% - 14.0%"]
-        O3["📈 <b>PUSHBACK RESILIENCE</b><br/>Capitulation Flips: 0.0% - 2.9%<br/>Genuine Self-Correction: 33.3% - 66.7%"]
+        O3["📈 <b>PUSHBACK RESILIENCE</b><br/>Capitulation Flips: 0.0% - 2.7%<br/>Genuine Self-Correction: 50.0% - 66.7%"]
     end
 
     P1 --> E1 --> O1
@@ -167,7 +167,7 @@ Paper 2: Bias Deliberation (Pure)*  --                        61.82% (68/110)   
 Paper 5: TriviaQA Flip Rate         18.70% (Sharma '24)       10.53% (4/38)         13.95% (6/43)       [4.2%, 24.1%]
 Paper 5: TriviaQA True Adoption     62.30% (Sharma '24)       32.00% (16/50)        16.00% (8/50)       [20.8%, 45.8%]
 Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          0.00% (0/4)         [0.0%, 7.1%]
-Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          2.86% (1/35)        [0.0%, 8.2%]
+Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          2.70% (1/37)        [0.0%, 8.2%]
 Paper 5 Ext: Arithmetic Self-Fix    0.00% (Capitulation)      66.67% (2/3)          50.00% (2/4)        [20.8%, 93.9%]
 Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net)       +2.38% (+1 Net)     Genuine Arithmetic
 ========================================================================================================================
@@ -471,13 +471,13 @@ Addressing Step 6 of the hackathon rubric, we audited all error states across ou
 │ BBQ Bias Flip Rate       │ 2.73% (3/110)              │ 1.82% (2/110) [p = 0.683, Eq.]      │
 │ BBQ Bias Deliberation (Pure) 61.82% (68/110)          │ 58.18% (64/110) [Overlapping CIs]   │
 │ TriviaQA Sycophancy Flips│ 10.53% (4/38) [1 question] │ 13.95% (6/43) [2 questions]         │
-│ Pushback Capitulation    │ 0.00% (0/43 Stand Firm)    │ 2.86% (1/35 Flips)                  │
+│ Pushback Capitulation    │ 0.00% (0/43 Stand Firm)    │ 2.70% (1/37 Flips)                  │
 │ Pushback Genuine Self-Fix│ 66.67% (2/3 Fixed)         │ 50.00% (2/4 Fixed)                  │
 │ Net Genuine Accuracy Δ   │ +4.00% (+2 Net Genuine)    │ +2.38% (+1 Net Genuine)             │
 └──────────────────────────┴────────────────────────────┴─────────────────────────────────────┘
 ```
 
-**Deployment Takeaway**: Both Sparse MoE (`Qwen3-30B-A3B`) and Dense Transformer (`Qwen3-32B`) demonstrate robust, statistically equivalent defense against demographic bias on BBQ ($p = 0.683$, paired McNemar test), and both architectures exhibit near-zero capitulation under adversarial pushback ($0.0\%$ MoE vs. $2.86\%$ Dense capitulation flips on initially correct items). Sparse MoE routes dynamically to only $10\%$ of parameters per token while achieving parity across all safety and faithfulness benchmarks. TriviaQA flips in both models were concentrated on questions where pre-trained factual certainty was weak (tested across template variations), demonstrating that open-retrieval vulnerability is driven by parametric memory priming rather than deliberate flattery.
+**Deployment Takeaway**: Both Sparse MoE (`Qwen3-30B-A3B`) and Dense Transformer (`Qwen3-32B`) demonstrate robust, statistically equivalent defense against demographic bias on BBQ ($p = 0.683$, paired McNemar test), and both architectures exhibit near-zero capitulation under adversarial pushback ($0.0\%$ MoE vs. $2.70\%$ Dense capitulation flips on initially correct items). Sparse MoE routes dynamically to only $10\%$ of parameters per token while achieving parity across all safety and faithfulness benchmarks. TriviaQA flips in both models were concentrated on questions where pre-trained factual certainty was weak (tested across template variations), demonstrating that open-retrieval vulnerability is driven by parametric memory priming rather than deliberate flattery.
 
 ---
 
