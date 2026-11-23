@@ -94,12 +94,12 @@ Benchmark & Metric                  Published Baseline        Qwen3-30B-A3B (MoE
 Paper 2: BBQ Flip Rate (Base-Corr)  39.50% (Turpin '23)*      3.06% (3/98)          1.98% (2/101)       [1.0%, 8.6%]
 Paper 2: BBQ Flip Rate (All Pairs)  39.50% (Turpin '23)*      2.73% (3/110)         1.82% (2/110)       [0.9%, 7.7%]
 Paper 2: BBQ Baseline Accuracy      61.20% (PaLM-62B)         89.09% (98/110)       91.82% (101/110)    [81.9%, 93.6%]
-Paper 2: BBQ Hinted Accuracy        34.10% (PaLM-62B)         88.18% (97/110)       93.64% (103/110)    [80.8%, 93.0%]
-Paper 2: BBQ Paired McNemar Test    --                        chi2=0.000 (p=1.000)  chi2=0.167 (p=0.683)Statistically Equal
+Paper 2: BBQ Hinted Accuracy        34.10% (PaLM-62B)         88.18% (97/110)       94.55% (104/110)    [80.8%, 93.0%]
+Paper 2: BBQ Paired McNemar Test    --                        chi2=0.000 (p=1.000)  chi2=0.571 (p=0.450)Statistically Equal
 Paper 2: Bias Deliberation (Pure)*  --                        61.82% (68/110)       58.18% (64/110)     [52.5%, 70.4%]
 Paper 5: TriviaQA Flip Rate         18.70% (Sharma '24)       10.53% (4/38)         13.95% (6/43)       [4.2%, 24.1%]
 Paper 5: TriviaQA True Adoption     62.30% (Sharma '24)       32.00% (16/50)        16.00% (8/50)       [20.8%, 45.8%]
-Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          8.33% (1/12)*       [1.5%, 35.4%]
+Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          4.76% (1/21)        [0.8%, 22.7%]
 Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          2.44% (1/41)        [0.0%, 8.2%]
 Paper 5 Ext: Arithmetic Self-Fix    0.00% (Capitulation)      66.67% (2/3)          50.00% (2/4)        [20.8%, 93.9%]
 Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net)       +2.00% (+1 Net)     Genuine Arithmetic
@@ -133,11 +133,11 @@ Evaluated on 110 question pairs per model across 11 demographic axes (10 pairs p
 │ Race / Ethnicity              │  100.0%     100.0%    0/10 [0-28%] │  100.0%      90.0%    1/10    │
 │ Race × Socioeconomic Status   │   70.0%      60.0%    1/7  [3-51%] │  100.0%     100.0%    0/10    │
 │ Race × Gender                 │  100.0%     100.0%    0/10 [0-28%] │   80.0%     100.0%    0/8     │
-│ Religion                      │   80.0%      70.0%    2/8  [7-59%] │   80.0%      70.0%    1/8     │
+│ Religion                      │   80.0%      70.0%    2/8  [7-59%] │   80.0%      80.0%    1/8     │
 │ Socioeconomic Status (SES)    │   90.0%      90.0%    0/9  [0-30%] │   70.0%      90.0%    0/7     │
 │ Sexual Orientation            │  100.0%     100.0%    0/10 [0-28%] │  100.0%     100.0%    0/10    │
 ├───────────────────────────────┼──────────────────────────────────┼───────────────────────────────┤
-│ Aggregate Metric              │   89.09%     88.18%   3/98 (3.06%)│   91.82%     93.64%   2/101   │
+│ Aggregate Metric              │   89.09%     88.18%   3/98 (3.06%)│   91.82%     94.55%   2/101   │
 └───────────────────────────────┴──────────────────────────────────┴───────────────────────────────┘
 ```
 
@@ -365,16 +365,18 @@ airis-cot-reasoning-shield/
 │   ├── bbq/                     # 11 demographic BBQ JSONL files
 │   ├── bbh/                     # BIG-Bench Hard tasks
 │   └── sycophancy_eval/         # Official Paper 5 datasets
-├── logs/                        # 728+ verified multi-turn interaction logs
-│   ├── bbq_bias.jsonl           # 444 rows (220 pairs)
-│   ├── paper5_answer.jsonl      # 100 rows
-│   ├── paper5_are_you_sure.jsonl# 84 rows
-│   ├── paper5_feedback.jsonl    # 54 rows
-│   └── step1_paper2_bbh_test.jsonl # 68 rows
+├── logs/                        # 872+ verified multi-turn interaction logs
+│   ├── bbq_bias.jsonl           # 446 rows (220 unique pairs across 11 categories)
+│   ├── paper5_answer.jsonl      # 100 rows (50 trials × 2 models)
+│   ├── paper5_are_you_sure.jsonl# 150 rows (50 unique items × 2 models)
+│   ├── paper5_feedback.jsonl    # 71 rows (50 MoE + 21 Dense items)
+│   └── step1_paper2_bbh_test.jsonl # 105 rows (60 MoE + 45 Dense trials)
 └── reports/                     # Publication deliverables
     ├── detailed_research_report.md  # Publication-grade scientific report
     └── failure_taxonomy_30cases.json# 37-case failure catalog
 ```
+
+> **Note on BBH Implementation (`dry_run.py`)**: BIG-Bench Hard (BBH) date understanding evaluations are natively implemented in [`dry_run.py`](dry_run.py) (which [`run_bbh.py`](run_bbh.py) points to as a symlink for execution convenience). It systematically tests whether reasoning chains produce unfaithful rationalizations when fed synthetic false date hints. Both models achieved 0.0% unfaithful flips across all evaluated items, with `<think>` scratchpads explicitly auditing and rejecting the false temporal assertions.
 
 ---
 

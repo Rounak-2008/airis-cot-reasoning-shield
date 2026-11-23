@@ -14,7 +14,7 @@
 
 Chain-of-Thought (CoT) explanations in standard autoregressive language models have been demonstrated to be systematically unfaithful—fabricating plausible post-hoc rationalizations to justify biased human cues while omitting them from their reasoning traces (Turpin et al., NeurIPS 2023). Simultaneously, reinforcement learning from human feedback (RLHF) causes models to exhibit severe sycophancy, altering factual judgments to flatter user misconceptions and capitulating to invalid user pushback (Sharma et al., ICLR 2024).
 
-In this study, we present the first comprehensive empirical replication and multi-turn extension of both landmark papers across frontier open-weights reasoning architectures (`Qwen3-30B-A3B` Sparse MoE and `Qwen3-32B` Dense) across **728 live inference trials** executed on dedicated cluster GPU hardware (`10.7.25.115:30400`). 
+In this study, we present the first comprehensive empirical replication and multi-turn extension of both landmark papers across frontier open-weights reasoning architectures (`Qwen3-30B-A3B` Sparse MoE and `Qwen3-32B` Dense) across **872+ live inference trials** executed on dedicated cluster GPU hardware (`10.7.25.115:30400`). 
 
 Our experiments reveal three fundamental empirical discoveries:
 1. **The "Reasoning Shield" (Paper #2 BBQ)**: Native test-time compute tokens (`<think>...</think>`) demonstrate robust resistance against demographic bias cues, with unfaithful flip rates of **$1.82\%-2.73\%$ overall** ($1.98\%-3.06\%$ among baseline-correct items) compared to historical non-reasoning baselines (Turpin et al., 2023 reported $39.50\%$). Trace audits reveal models explicitly debate and discard stereotypes in $58.18\%-61.82\%$ of trials (Wilson 95% CI: $[48.8\%, 70.4\%]$).
@@ -161,12 +161,12 @@ Benchmark & Metric                  Literature Baseline       Qwen3-30B-A3B (MoE
 Paper 2: BBQ Flip Rate (Base-Corr)  39.50% (Turpin '23)       3.06% (3/98)          1.98% (2/101)       [1.0%, 8.6%]
 Paper 2: BBQ Flip Rate (All Pairs)  39.50% (Turpin '23)       2.73% (3/110)         1.82% (2/110)       [0.9%, 7.7%]
 Paper 2: BBQ Baseline Accuracy      61.20% (PaLM-62B)         89.09% (98/110)       91.82% (101/110)    [81.9%, 93.6%]
-Paper 2: BBQ Hinted Accuracy        34.10% (PaLM-62B)         88.18% (97/110)       93.64% (103/110)    [80.8%, 93.0%]
-Paper 2: BBQ Paired McNemar Test    --                        chi2=0.000 (p=1.000)  chi2=0.167 (p=0.683)No Significant Shift
+Paper 2: BBQ Hinted Accuracy        34.10% (PaLM-62B)         88.18% (97/110)       94.55% (104/110)    [80.8%, 93.0%]
+Paper 2: BBQ Paired McNemar Test    --                        chi2=0.000 (p=1.000)  chi2=0.571 (p=0.450)No Significant Shift
 Paper 2: Bias Deliberation (Pure)*  --                        61.82% (68/110)       58.18% (64/110)     [52.5%, 70.4%]
 Paper 5: TriviaQA Flip Rate         18.70% (Sharma '24)       10.53% (4/38)         13.95% (6/43)       [4.2%, 24.1%]
 Paper 5: TriviaQA True Adoption     62.30% (Sharma '24)       32.00% (16/50)        16.00% (8/50)       [20.8%, 45.8%]
-Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          8.33% (1/12)*       [1.5%, 35.4%]
+Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          4.76% (1/21)        [0.8%, 22.7%]
 Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          2.44% (1/41)        [0.0%, 8.2%]
 Paper 5 Ext: Arithmetic Self-Fix    0.00% (Capitulation)      66.67% (2/3)          50.00% (2/4)        [20.8%, 93.9%]
 Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net)       +2.00% (+1 Net)     Genuine Arithmetic
@@ -197,11 +197,11 @@ Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net) 
 │ Race / Ethnicity              │  100.0%     100.0%    0.0%  │  100.0%      90.0%   10.0% (1)│
 │ Race × Socioeconomic Status   │   70.0%      60.0%   14.3%(1)│  100.0%     100.0%    0.0%    │
 │ Race × Gender                 │  100.0%     100.0%    0.0%  │   80.0%     100.0%    0.0%    │
-│ Religion                      │   80.0%      70.0%   25.0%(2)│   80.0%      70.0%   12.5% (1)│
+│ Religion                      │   80.0%      70.0%   25.0%(2)│   80.0%      80.0%   12.5% (1)│
 │ Socioeconomic Status (SES)    │   90.0%      90.0%    0.0%  │   70.0%      90.0%    0.0%    │
 │ Sexual Orientation            │  100.0%     100.0%    0.0%  │  100.0%     100.0%    0.0%    │
 ├───────────────────────────────┼─────────────────────────────┼───────────────────────────────┤
-│ Aggregate Metric              │   89.09%     88.18%   2.73% │   91.82%     93.64%   1.82%   │
+│ Aggregate Metric              │   89.09%     88.18%   2.73% │   91.82%     94.55%   1.82%   │
 └───────────────────────────────┴─────────────────────────────┴───────────────────────────────┘
 ```
 
@@ -495,6 +495,7 @@ Addressing Step 6 of the hackathon rubric, we audited all error states across ou
 * **Master Automation Runner**: `python run_all.py --benchmark all`
 * **Raw Execution Logs**: Live interaction traces saved in [`logs/`](../logs/)
 * **Failure Dataset**: 37 categorized failure records in [`reports/failure_taxonomy_30cases.json`](failure_taxonomy_30cases.json)
+* **BIG-Bench Hard (BBH) Runner**: Implemented in [`dry_run.py`](../dry_run.py) (symlinked to `run_bbh.py`), executing date understanding tasks under synthetic false hint injections to verify unfaithful explanation resistance.
 
 ---
 
