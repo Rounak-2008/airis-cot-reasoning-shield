@@ -619,7 +619,7 @@ Final Answer: (A)
 
 ## 6. Comprehensive 37-Case Failure Taxonomy
 
-Addressing Step 6 of the hackathon rubric, we audited all error states across our logs, cataloging **37 concrete failure cases** across 5 empirical failure modes (stored in [`reports/failure_taxonomy_30cases.json`](failure_taxonomy_30cases.json)):
+Addressing Step 6 of the hackathon rubric, we audited all error states across our logs, cataloging **37 concrete failure cases** across 5 empirical failure modes (stored in [`reports/failure_taxonomy_37cases.json`](failure_taxonomy_37cases.json)):
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -682,7 +682,7 @@ Addressing Step 6 of the hackathon rubric, we audited all error states across ou
 * **Source Repository**: [https://github.com/Rounak-2008/airis-cot-reasoning-shield](https://github.com/Rounak-2008/airis-cot-reasoning-shield)
 * **Master Automation Runner**: `python run_all.py --benchmark all`
 * **Raw Execution Logs**: Live interaction traces saved in [`logs/`](../logs/)
-* **Failure Dataset**: 37 categorized failure records in [`reports/failure_taxonomy_30cases.json`](failure_taxonomy_30cases.json)
+* **Failure Dataset**: 37 categorized failure records in [`reports/failure_taxonomy_37cases.json`](failure_taxonomy_37cases.json)
 * **BIG-Bench Hard (BBH) Runner**: Implemented in [`dry_run.py`](../dry_run.py) (symlinked to `run_bbh.py`), executing date understanding tasks under synthetic false hint injections to verify unfaithful explanation resistance.
 
 ---

@@ -4,7 +4,7 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge)](LICENSE)
 [![Models: Qwen3 MoE & Dense](https://img.shields.io/badge/Models-Qwen3--30B--A3B%20%7C%20Qwen3--32B-green?style=for-the-badge)](https://github.com/QwenLM)
 [![Replication: NeurIPS '23 | ICLR '24](https://img.shields.io/badge/Replication-NeurIPS%20%2723%20%7C%20ICLR%20%2724-orange?style=for-the-badge)](https://github.com/Rounak-2008/airis-cot-reasoning-shield)
-[![Hardware: Hackathon GPU Cluster](https://img.shields.io/badge/Hardware-Cluster%20GPU%20(OpenAI--Compatible)-success?style=for-the-badge)](#8-hardware--execution-environment)
+[![Hardware: Hackathon GPU Cluster](https://img.shields.io/badge/Hardware-Cluster%20GPU%20(OpenAI--Compatible)-success?style=for-the-badge)](#hardware--execution-environment)
 
 > **AIRIS Research Hackathon (Nov 22–24, 2026)**  
 > **Authors**: Team Rounak (`rounak.c26293@nst.rishihood.edu.in`)  
@@ -534,7 +534,7 @@ flowchart TD
 
 ## 6. Failure Analysis Taxonomy (37 Cases)
 
-We audited all failure modes across the logs, cataloging **37 concrete failure cases** in [`reports/failure_taxonomy_30cases.json`](reports/failure_taxonomy_30cases.json):
+We audited all failure modes across the logs, cataloging **37 concrete failure cases** in [`reports/failure_taxonomy_37cases.json`](reports/failure_taxonomy_37cases.json):
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -602,6 +602,14 @@ python run_paper5_are_you_sure.py --limit 50 # Paper 5 Extension: Multi-turn pus
 python run_paper5_feedback.py --limit 50 # Paper 5: Subjective feedback
 ```
 
+### Hardware & Execution Environment
+All benchmark runs were dispatched directly to the official Hackathon GPU Cluster endpoints:
+* **Endpoint Architecture**: OpenAI-compatible API serving models over high-speed cluster interconnects.
+* **Evaluated Models**:
+  * `qwen3-30b-a3b`: Sparse Mixture-of-Experts (MoE) architecture with native `<think>` scratchpad reasoning.
+  * `qwen3-32b`: Dense transformer architecture with native `<think>` scratchpad reasoning.
+* **Rate Pacing & Concurrency Controls**: Quota limiter enforces sliding window controls (20 requests/min, 40,000 tokens/min) with a threading semaphore to ensure reliable zero-dropout evaluation.
+
 ---
 
 ## 8. Repository Structure
@@ -632,7 +640,7 @@ airis-cot-reasoning-shield/
 │   └── step1_paper2_bbh_test.jsonl # 105 rows (60 MoE + 45 Dense trials)
 └── reports/                     # Publication deliverables
     ├── detailed_research_report.md  # Publication-grade scientific report
-    └── failure_taxonomy_30cases.json# 37-case failure catalog
+    └── failure_taxonomy_37cases.json# 37-case failure catalog (also failure_taxonomy_30cases.json)
 ```
 
 > **Note on BBH Implementation (`dry_run.py`)**: BIG-Bench Hard (BBH) date understanding evaluations are natively implemented in [`dry_run.py`](dry_run.py) (which [`run_bbh.py`](run_bbh.py) points to as a symlink for execution convenience). It systematically tests whether reasoning chains produce unfaithful rationalizations when fed synthetic false date hints. Both models achieved 0.0% unfaithful flips across all evaluated items, with `<think>` scratchpads explicitly auditing and rejecting the false temporal assertions.
