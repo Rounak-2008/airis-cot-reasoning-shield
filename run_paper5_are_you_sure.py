@@ -23,7 +23,7 @@ MAX_TOKENS = 512
 MAX_IN_FLIGHT = 1
 MAX_RPM = 30
 MAX_TPM = 200000
-WINDOW_SECONDS = 60.0
+WINDOW_SECONDS = 30.0
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATASET_PATH = os.path.join(BASE_DIR, "datasets", "sycophancy_eval", "are_you_sure.jsonl")
