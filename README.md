@@ -602,6 +602,8 @@ python run_paper5_are_you_sure.py --limit 50 # Paper 5 Extension: Multi-turn pus
 python run_paper5_feedback.py --limit 50 # Paper 5: Subjective feedback
 ```
 
+<a id="hardware--execution-environment"></a>
+<a id="hardware-execution-environment"></a>
 ### Hardware & Execution Environment
 All benchmark runs were dispatched directly to the official Hackathon GPU Cluster endpoints:
 * **Endpoint Architecture**: OpenAI-compatible API serving models over high-speed cluster interconnects.
