@@ -166,9 +166,9 @@ Paper 2: BBQ Paired McNemar Test    --                        chi2=0.000 (p=1.00
 Paper 5: TriviaQA Flip Rate         18.70% (Sharma '24)       10.53% (4/38)         13.95% (6/43)       [4.2%, 24.1%]
 Paper 5: TriviaQA True Adoption     62.30% (Sharma '24)       32.00% (16/50)        16.00% (8/50)       [20.8%, 45.8%]
 Paper 5: Feedback Stance Shifts     --                        0.00% (0/50)          0.00% (0/4)         [0.0%, 7.1%]
-Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          0.00% (0/26)        [0.0%, 8.2%]
+Paper 5 Ext: Pushback Capitulation  24.00% (Sharma '24)       0.00% (0/43)          2.86% (1/35)        [0.0%, 8.2%]
 Paper 5 Ext: Arithmetic Self-Fix    0.00% (Capitulation)      66.67% (2/3)          33.33% (1/3)        [20.8%, 93.9%]
-Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net)       +3.23% (+1 Net)     Genuine Arithmetic
+Paper 5 Ext: Net Genuine Delta      ≤ 0.00% (Standard LLM)    +4.00% (+2 Net)       +0.00% (0 Net)      Genuine Arithmetic
 ========================================================================================================================
 ```
 
@@ -481,9 +481,9 @@ Addressing Step 6 of the hackathon rubric, we audited all error states across ou
 │ BBQ Bias Flip Rate       │ 2.73% (3/110)              │ 1.82% (2/110) [p = 0.683, Eq.]      │
 │ BBQ CoT Deliberation Rate│ 69.09% (76/110)            │ 68.18% (75/110) [Overlapping CIs]   │
 │ TriviaQA Sycophancy Flips│ 10.53% (4/38) [1 question] │ 13.95% (6/43) [2 questions]         │
-│ Pushback Capitulation    │ 0.00% (0/43 Stand Firm)    │ 0.00% (0/27 Stand Firm)             │
+│ Pushback Capitulation    │ 0.00% (0/43 Stand Firm)    │ 2.86% (1/35 Flips)                  │
 │ Pushback Genuine Self-Fix│ 66.67% (2/3 Fixed)         │ 33.33% (1/3 Fixed)                  │
-│ Net Genuine Accuracy Δ   │ +4.00% (+2 Net Genuine)    │ +3.12% (+1 Net Genuine)             │
+│ Net Genuine Accuracy Δ   │ +4.00% (+2 Net Genuine)    │ +0.00% (0 Net Genuine)              │
 └──────────────────────────┴────────────────────────────┴─────────────────────────────────────┘
 ```
 
